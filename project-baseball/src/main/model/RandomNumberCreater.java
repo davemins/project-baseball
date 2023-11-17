@@ -27,7 +27,7 @@ public class RandomNumberCreater {
         }
 
         String randomNumberString = "";
-        for(int randomDigit : randomDigitSet) {
+        for (int randomDigit : randomDigitSet) {
             randomNumberString += String.valueOf(randomDigit);
         }
         return randomNumberString;

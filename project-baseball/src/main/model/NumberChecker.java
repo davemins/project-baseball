@@ -12,8 +12,8 @@ public class NumberChecker {
 
         strike = 0;
 
-        for(int i=0; i<NUMBER_LENGTH; i++) {
-            if(randomNumberArr[i].equals(userNumberArr[i])) {
+        for (int i = 0; i < NUMBER_LENGTH; i++) {
+            if (randomNumberArr[i].equals(userNumberArr[i])) {
                 strike++;
             }
         }
@@ -27,9 +27,9 @@ public class NumberChecker {
 
         ball = 0;
 
-        for(int i=0; i<NUMBER_LENGTH; i++) {
-            for(int k=0; k<NUMBER_LENGTH; k++){
-                if(randomNumberArr[i].equals(userNumberArr[k]) && i != k) {
+        for (int i = 0; i < NUMBER_LENGTH; i++) {
+            for (int k = 0; k < NUMBER_LENGTH; k++) {
+                if (randomNumberArr[i].equals(userNumberArr[k]) && i != k) {
                     ball++;
                 }
             }

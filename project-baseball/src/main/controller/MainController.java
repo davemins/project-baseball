@@ -24,7 +24,7 @@ public class MainController {
     public void play() {
         initializeGame();
 
-        while(gameRunning) {
+        while (gameRunning) {
             getUserInput();
             checkInput();
             printHint();
