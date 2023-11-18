@@ -2,16 +2,12 @@ package main.model;
 
 public class NumberChecker {
     private static final int NUMBER_LENGTH = 3;
-    int strike = 0;
-    int ball = 0;
 
     public int checkStrike(String randomNumber, String userNumber) {
+        String[] randomNumberArr = initializeArray(randomNumber);
+        String[] userNumberArr = initializeArray(userNumber);
 
-        String[] randomNumberArr = String.valueOf(randomNumber).split("");
-        String[] userNumberArr = String.valueOf(userNumber).split("");
-
-        strike = 0;
-
+        int strike = 0;
         for (int i = 0; i < NUMBER_LENGTH; i++) {
             if (randomNumberArr[i].equals(userNumberArr[i])) {
                 strike++;
@@ -21,19 +17,27 @@ public class NumberChecker {
     }
 
     public int checkBall(String randomNumber, String userNumber) {
+        String[] randomNumberArr = initializeArray(randomNumber);
+        String[] userNumberArr = initializeArray(userNumber);
 
-        String[] randomNumberArr = String.valueOf(randomNumber).split("");
-        String[] userNumberArr = String.valueOf(userNumber).split("");
-
-        ball = 0;
-
+        int ball = 0;
         for (int i = 0; i < NUMBER_LENGTH; i++) {
-            for (int k = 0; k < NUMBER_LENGTH; k++) {
-                if (randomNumberArr[i].equals(userNumberArr[k]) && i != k) {
-                    ball++;
-                }
-            }
+            ball += countMatchingBalls(randomNumberArr[i], userNumberArr);
         }
         return ball;
+    }
+
+    private String[] initializeArray(String number) {
+        return String.valueOf(number).split("");
+    }
+
+    private int countMatchingBalls(String digit, String[] userNumberArr) {
+        int ball = 0;
+        for (String userDigit : userNumberArr) {
+            if (digit.equals(userDigit)) {
+                ball++;
+            }
+        }
+        return ball > 0 ? ball - 1 : 0;
     }
 }
