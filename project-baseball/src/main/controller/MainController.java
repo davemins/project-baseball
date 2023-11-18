@@ -2,7 +2,7 @@ package main.controller;
 
 import main.model.HintChecker;
 import main.model.NumberChecker;
-import main.model.RandomNumberCreater;
+import main.model.RandomNumberCreator;
 import main.model.Validator;
 import main.view.InputView;
 import main.view.OutputView;
@@ -10,58 +10,72 @@ import main.view.OutputView;
 public class MainController {
 
     private String randomNumber;
-    private String userNumber;
-    private String userAnswer;
     private boolean gameRunning = true;
-    private int strike;
-    private int ball;
 
-    RandomNumberCreater randomNumberCreater = new RandomNumberCreater();
-    OutputView outputView = new OutputView();
-    InputView inputView = new InputView();
-    NumberChecker numberChecker = new NumberChecker();
+    private final RandomNumberCreator randomNumberCreator = new RandomNumberCreator();
+    private final OutputView outputView = new OutputView();
+    private final InputView inputView = new InputView();
+    private final NumberChecker numberChecker = new NumberChecker();
 
     public void play() {
         initializeGame();
 
         while (gameRunning) {
-            getUserInput();
-            checkInput();
-            printHint();
-            handleGameEnd();
+            String userNumber = getUserInput();
+            int strike = checkStrike(userNumber);
+            int ball = checkBall(userNumber);
+            printHint(strike, ball);
+            handleGameEnd(strike);
         }
     }
 
     private void initializeGame() {
         outputView.printStartGame();
-        randomNumber = randomNumberCreater.getRandomNumber();
+        randomNumber = randomNumberCreator.getRandomNumber();
     }
 
-    private void getUserInput() {
-        userNumber = inputView.enterGameNumber();
-        isValidUserNumberInput(userNumber);
+    private String getUserInput() {
+        String userNumber = inputView.enterGameNumber();
+        try {
+            validateUserNumberInput(userNumber);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            getUserInput();
+        }
+        return userNumber;
     }
 
-    private void checkInput() {
-        strike = numberChecker.checkStrike(randomNumber, userNumber);
-        ball = numberChecker.checkBall(randomNumber, userNumber);
+    private void validateUserNumberInput(String userNumber) {
+        Validator.isValidUserNumberInput(userNumber);
     }
 
-    private void printHint() {
+    private int checkStrike(String userNumber) {
+        return numberChecker.checkStrike(randomNumber, userNumber);
+    }
+
+    private int checkBall(String userNumber) {
+        return numberChecker.checkBall(randomNumber, userNumber);
+    }
+
+    private void printHint(int strike, int ball) {
         String hint = HintChecker.getHint(strike, ball);
         System.out.println(hint);
     }
 
-    private void handleGameEnd() {
-        if (isGameEnd()) {
+    private void handleGameEnd(int strike) {
+        if (isGameEnd(strike)) {
             restartOrEndGame();
         }
     }
 
     private void restartOrEndGame() {
-        userAnswer = inputView.enterAnswerRestartGame();
-        isValidUserAnswerInput(userAnswer);
-
+        String userAnswer = inputView.enterAnswerRestartGame();
+        try {
+            validateUserAnswerInput(userAnswer);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            restartOrEndGame();
+        }
         if (userAnswer.equals("1")) {
             restartGame();
         } else {
@@ -69,8 +83,12 @@ public class MainController {
         }
     }
 
+    private void validateUserAnswerInput(String userAnswer) {
+        Validator.isValidUserAnswerInput(userAnswer);
+    }
+
     private void restartGame() {
-        randomNumber = randomNumberCreater.getRandomNumber();
+        randomNumber = randomNumberCreator.getRandomNumber();
         gameRunning = true;
     }
 
@@ -78,15 +96,7 @@ public class MainController {
         gameRunning = false;
     }
 
-    private boolean isGameEnd() {
+    private boolean isGameEnd(int strike) {
         return strike == 3;
-    }
-
-    private void isValidUserNumberInput(String input) {
-        Validator.isValidUserNumberInput(input);
-    }
-
-    private void isValidUserAnswerInput(String input) {
-        Validator.isValidUserAnswerInput(input);
     }
 }

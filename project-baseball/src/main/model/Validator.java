@@ -6,7 +6,7 @@ public class Validator {
     private static final String REQUIRED_NUMBER_MESSAGE = "세 자리 숫자를 입력하세요.";
     private static final String NUMERIC_INPUT_MESSAGE = "숫자만 입력하세요.";
     private static final String DISTINCT_DIGITS_MESSAGE = "세 자리 서로 다른 숫자를 입력하세요.";
-    private static final String INVALID_ANSWER_MESSAGE = "잘못된 답을 하셨습니다.";
+    private static final String INVALID_ANSWER_MESSAGE = "잘못된 입력입니다.";
 
     public static void isValidUserNumberInput(String input) {
         checkLength(input);
