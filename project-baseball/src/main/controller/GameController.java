@@ -40,7 +40,7 @@ public class GameController {
         String userNumber = inputView.enterGameNumber();
         try {
             validateUserNumberInput(userNumber);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             getUserInput();
         }
