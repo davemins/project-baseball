@@ -11,8 +11,6 @@ public class GameController {
 
     private String randomNumber;
     private boolean gameRunning = true;
-
-    private final RandomNumberCreator randomNumberCreator = new RandomNumberCreator();
     private final OutputView outputView = new OutputView();
     private final InputView inputView = new InputView();
     private final NumberChecker numberChecker = new NumberChecker();
@@ -31,8 +29,9 @@ public class GameController {
 
     public void initializeGame() {
         outputView.printStartGame();
-        randomNumber = randomNumberCreator.getRandomNumber();
-        System.out.println(randomNumber);
+        RandomNumberCreator newRandomNumber = new RandomNumberCreator();
+        randomNumber = newRandomNumber.getRandomNumber();
+        gameRunning = true;
     }
 
 
@@ -83,7 +82,7 @@ public class GameController {
             restartOrEndGame();
         }
         if (userAnswer.equals("1")) {
-            restartGame();
+            initializeGame();
         } else {
             endGame();
         }
@@ -93,22 +92,12 @@ public class GameController {
         Validator.isValidUserAnswerInput(userAnswer);
     }
 
-    public void restartGame() {
-        randomNumber = randomNumberCreator.getRandomNumber();
-        gameRunning = true;
-    }
-
     private void endGame() {
         gameRunning = false;
     }
 
     public boolean isGameEnd(int strike) {
         return strike == 3;
-    }
-
-    // 게임 진행 여부를 반환하는 메서드
-    public boolean isGameRunning() {
-        return gameRunning;
     }
 
     // 게임의 현재 상태(스트라이크, 볼, 힌트 등)를 반환하는 메서드

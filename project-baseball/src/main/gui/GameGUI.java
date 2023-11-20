@@ -21,10 +21,13 @@ public class GameGUI extends JFrame {
 
     private void initUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Number Game");
+        setTitle("숫자 게임");
+
+        setSize(740, 350); // 크기 추가
 
         userInputField = new JTextField(10);
-        JButton submitButton = new JButton("Submit");
+
+        JButton submitButton = new JButton("입력");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -32,7 +35,7 @@ public class GameGUI extends JFrame {
             }
         });
 
-        JButton restartButton = new JButton("Restart");
+        JButton restartButton = new JButton("재시작");
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,10 +49,10 @@ public class GameGUI extends JFrame {
         gameInfoArea = new JTextArea(10, 30);
         gameInfoArea.setEditable(false);
 
-        gameStatusLabel = new JLabel("Game in progress");
+        gameStatusLabel = new JLabel("게임 진행 중");
 
         JPanel mainPanel = new JPanel();
-        mainPanel.add(new JLabel("Enter your guess: "));
+        mainPanel.add(new JLabel("3자리 숫자를 입력하세요: "));
         mainPanel.add(userInputField);
         mainPanel.add(submitButton);
         mainPanel.add(restartButton);
@@ -59,13 +62,11 @@ public class GameGUI extends JFrame {
 
         add(mainPanel);
 
-        pack();
         setLocationRelativeTo(null);
     }
 
     private void handleUserInput() {
         String userNumber = userInputField.getText();
-        System.out.println("User input: " + userNumber); // 디버깅용 출력
         try {
             gameController.validateUserNumberInput(userNumber);
             int strike = gameController.checkStrike(userNumber);
@@ -87,17 +88,16 @@ public class GameGUI extends JFrame {
         if (gameController.isGameEnd(strike)) {
             outputArea.append("Game Over!\n");
             gameInfoArea.append("Final Result: " + gameController.getFinalResult() + "\n");
-            updateGameStatus("Game Over");
+            updateGameStatus("게임 종료");
             userInputField.setEnabled(false);
         }
     }
 
     private void restartGame() {
-        gameController.restartGame();
         clearOutput();
-        updateGameStatus("Game in progress");
+        updateGameStatus("게임 진행");
         userInputField.setEnabled(true);
-        updateGameInfo("");
+        gameController.initializeGame();
     }
 
     private void clearOutput() {
