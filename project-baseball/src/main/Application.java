@@ -1,10 +1,10 @@
 package main;
 
-import main.controller.MainController;
+import main.controller.GameController;
 
 public class Application {
     public static void main(String[] args) {
-        MainController game = new MainController();
+        GameController game = new GameController();
         game.play();
     }
 }
