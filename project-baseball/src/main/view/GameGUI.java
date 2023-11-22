@@ -1,7 +1,8 @@
-package main.gui;
+package main.view;
 
 import main.controller.GameController;
 import main.model.HintChecker;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -112,15 +113,5 @@ public class GameGUI extends JFrame {
 
     private void updateGameInfo(String userNumber) {
         gameInfoArea.setText(gameController.getCurrentGameState(userNumber));
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                GameGUI gameGUI = new GameGUI();
-                gameGUI.setVisible(true);
-            }
-        });
     }
 }

@@ -1,0 +1,149 @@
+@startuml
+class main.model.Validator {
+- {static} int REQUIRED_NUMBER_LENGTH
+- {static} String REQUIRED_NUMBER_MESSAGE
+- {static} String NUMERIC_INPUT_MESSAGE
+- {static} String DISTINCT_DIGITS_MESSAGE
+- {static} String INVALID_ANSWER_MESSAGE
++ {static} void isValidUserNumberInput(String)
++ {static} void isValidUserAnswerInput(String)
+- {static} void checkLength(String)
+- {static} void checkNumeric(String)
+- {static} void checkDistinctDigits(String)
+- {static} void checkZeroOrOne(String)
+}
+class main.model.GameEndedState {
++ void startGame()
++ void endGame()
++ void setRandomNumber(String)
++ boolean isGameRunning()
++ void setGameRunning(boolean)
++ void setState(GameState)
++ String getCurrentGameState()
++ String getFinalResult()
++ String getRandomNumber()
++ boolean isGameEnd(int)
+}
+class main.model.ValidateUserNumberCommand {
+- GameController gameController
+- String userNumber
++ void execute()
+}
+class main.model.HintChecker {
+- {static} int ZERO
+- {static} int THREE
+- {static} String NOTHING_MESSAGE
+- {static} String BALL_MESSAGE
+- {static} String STRIKE_MESSAGE
+- {static} String GAME_END_MESSAGE
++ {static} String getHint(int,int)
+- {static} boolean isNothing(int,int)
+- {static} void appendBallHint(StringBuilder,int)
+- {static} void appendStrikeHint(StringBuilder,int)
+}
+class main.Application {
++ {static} void main(String[])
+}
+class main.view.GameGUI {
+- GameController gameController
+- JTextField userInputField
+- JTextArea outputArea
+- JTextArea gameInfoArea
+- JLabel gameStatusLabel
+- void initUI()
+- void handleUserInput()
+- void printHint(int,int)
+- void handleGameEnd(int)
+- void restartGame()
+- void clearOutput()
+- void updateGameStatus(String)
+- void updateGameInfo(String)
+}
+class main.model.NumberChecker {
+- {static} int ZERO
+- {static} int NUMBER_LENGTH
+~ int strike
+~ int ball
++ int checkStrike(String,String)
++ int checkBall(String,String)
+}
+class main.model.RandomNumberCreator {
+- {static} int MIN_NUMBER
+- {static} int MAX_NUMBER
+- {static} int NUMBER_LENGTH
+- String randomNumber
++ String getRandomNumber()
+- String generateRandomNumber()
+}
+class main.view.InputView {
+- {static} String INPUT_NUMBER_MESSAGE
+- {static} String ASK_RESET_GAME_MESSAGE
+- {static} Scanner scanner
+- {static} InputView instance
++ {static} InputView getInstance()
++ String enterGameNumber()
++ String enterAnswerRestartGame()
+- Scanner getScanner()
+}
+class main.controller.GameController {
+- GameState gameState
+- OutputView outputView
+- InputView inputView
+- NumberChecker numberChecker
++ void play()
++ void initializeGame()
+- String getUserInput()
++ void validateUserNumberInput(String)
++ int checkStrike(String)
++ int checkBall(String)
+- void printHint(int,int)
+- void handleGameEnd(int)
+- void restartOrEndGame()
+- void validateUserAnswerInput(String)
+- void endGame()
++ String getCurrentGameState(String)
++ boolean isGameEnd(int)
++ String getFinalResult()
+}
+interface main.model.GameState {
+~ void startGame()
+~ void endGame()
+~ void setRandomNumber(String)
+~ boolean isGameRunning()
+~ void setGameRunning(boolean)
+~ void setState(GameState)
+~ String getCurrentGameState()
+~ String getFinalResult()
+~ String getRandomNumber()
+~ boolean isGameEnd(int)
+}
+interface main.model.Command {
+~ void execute()
+}
+class main.view.OutputView {
+- {static} String GAME_START_MESSAGE
+- {static} OutputView instance
++ {static} OutputView getInstance()
++ void printStartGame()
+}
+class main.model.PlayingState {
+- String randomNumber
+- boolean gameRunning
++ void startGame()
++ void endGame()
++ void setRandomNumber(String)
++ boolean isGameRunning()
++ void setGameRunning(boolean)
++ void setState(GameState)
++ String getCurrentGameState()
++ String getFinalResult()
++ String getRandomNumber()
++ boolean isGameEnd(int)
+}
+
+
+main.model.GameState <|.. main.model.GameEndedState
+main.model.Command <|.. main.model.ValidateUserNumberCommand
+main.view.JFrame <|-- main.view.GameGUI
+main.model.GameState <|.. main.model.PlayingState
+@enduml
